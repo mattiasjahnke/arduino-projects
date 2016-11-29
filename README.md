@@ -23,3 +23,9 @@ Two neopixel rings, attached to a pair of sunglasses. [Blog post](http://enginee
 * *Project type: PlatformIO (.cpp)*
 
 A box to which I mounted a 4-digit LCD display and a distance sensor to.
+
+### [Mini Instagram Stats](../master/mini-ig-stats)
+
+* *Project type: Particle Photon (.ino)*
+
+RGB led that indicates when you get a new follower or someone likes your posts on Instagram. A two-part project with a webserver in Node.js and a Photon communicating with it.
