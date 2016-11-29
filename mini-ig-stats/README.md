@@ -42,4 +42,9 @@ This will start the node project on your local machine and will listen for http 
 
 ### Photon
 
-Visit [https://build.particle.io](https://build.particle.io) and upload the code to your Photon (remember to configure it with your hostname of the nodejs-application and your instagram handle).
+Visit [https://build.particle.io](https://build.particle.io) and upload the code to your Photon
+
+**Modify the code**
+* Configure your own hostname of the nodejs-application
+* Replace my IG handle "engineerish" with your own
+* Do any necessary modifications to the pin config (or write your own "result visualization" code)
