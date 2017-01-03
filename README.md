@@ -29,3 +29,9 @@ A box to which I mounted a 4-digit LCD display and a distance sensor to.
 * *Project type: Particle Photon (.ino)*
 
 RGB led that indicates when you get a new follower or someone likes your posts on Instagram. A two-part project with a webserver in Node.js and a Photon communicating with it.
+
+### [Pong](../master/pong)
+
+* *Project type: PlatformIO (.cpp)*
+
+A simple implementation of Pong for two players controlling the paddles with potetiometers. Using the TVout-library to display the game on a TV.
