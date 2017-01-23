@@ -18,6 +18,12 @@ Simple "guitar" where I used a distance sensor to map distance to a tone and pla
 
 Two neopixel rings, attached to a pair of sunglasses. [Blog post](http://engineerish.com/post/151660128666/tutorial-party-glasses)
 
+### [Simon Says](../master/simon-says)
+
+* *Project type: Arduino IDE (.ino)*
+
+A simon says implemented on an Arduino.
+
 ### [Pushup counter](../master/pushups)
 
 * *Project type: PlatformIO (.cpp)*
