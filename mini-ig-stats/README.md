@@ -1,6 +1,6 @@
 # mini-ig-stats
 
-An RGB led that indicates whenever you get a new follower or a like on your Instagram account.
+An RGB led that indicates whenever you get a new follower, comment or like on your Instagram account.
 
 ## How it works
 
@@ -12,12 +12,13 @@ Two routes are configured:
 
 * `/followers/[instagram_handle]`
 * `/likes/[instagram_handle]`
+* `/comments/[instagram_handle]`
 
 The server will cache the result of the Instagram queries and return the result as plain text (no json-wrapping BS) to the calling client.
 
 ### Photon
 
-The photon will call the Node.js server every x second, asking for the current followers and likes count.
+The photon will call the Node.js server every x second, asking for the current number of followers/comments/likes.
 
 A simple in-memory cache of the latest result allows us to calculate the delta for the two values.
 Therefore we can know when something has changed.
@@ -46,5 +47,5 @@ Visit [https://build.particle.io](https://build.particle.io) and upload the code
 
 **Modify the code**
 * Configure your own hostname of the nodejs-application
-* Replace my IG handle "engineerish" with your own
+* Replace my Instagram handle "engineerish" with your own
 * Do any necessary modifications to the pin config (or write your own "result visualization" code)
