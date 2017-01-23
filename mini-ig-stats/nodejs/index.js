@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var cache = require('memory-cache');
 const instagramAnalytics = require('instagram-analytics');
-const cacheTime = 1000 * 20; // 20 sec
+const cacheTime = 1000 * 15; // 15 sec
 
 app.get('/followers/:ig_handle', function(req, res) {
   get(req.params["ig_handle"], function(data) {
@@ -13,6 +13,12 @@ app.get('/followers/:ig_handle', function(req, res) {
 app.get('/likes/:ig_handle', function(req, res) {
   get(req.params["ig_handle"], function(data) {
     res.send(data.likes.toString());
+  });
+});
+
+app.get('/comments/:ig_handle', function(req, res) {
+  get(req.params["ig_handle"], function(data) {
+    res.send(data.comments.toString());
   });
 });
 

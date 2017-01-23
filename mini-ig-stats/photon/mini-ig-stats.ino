@@ -16,12 +16,13 @@ http_header_t headers[] = {
 // ---- Memory ----
 int lastFollowerCount = 0;
 int lastLikeCount = 0;
+int lastCommentCount = 0;
 
 char publishString[40]; // Used for debugging to the Particle console
 
 void setup() {
     // Setup the endpoint for the Node.js server
-    request.hostname = ""; // TODO: Insert hostname of your endpoint here
+    request.hostname = "";
     request.port = 80;
     
     // (PWM) Pins for RGB Led
@@ -41,35 +42,41 @@ void loop() {
     int likeCount = getLikes();
     int likeDelta = likeCount - lastLikeCount;
     
+    int commentCount = getComments();
+    int commentDelta = commentCount - lastCommentCount;
+    
     // Skip the first run
-    if (lastFollowerCount > 0 && lastLikeCount > 0) {
-        handleResult(followerDelta, likeDelta);
+    if (lastFollowerCount > 0 && lastLikeCount > 0 && lastFollowerCount > 0) {
+        handleResult(followerDelta, likeDelta, commentDelta);
     }
     
-    sprintf(publishString, "F: %d, L: = %d", followerCount, likeCount);
+    sprintf(publishString, "F: %d, L: = %d, C: %d", followerCount, likeCount, commentCount);
     Spark.publish("InstagramStats", publishString);
 
     lastLikeCount = likeCount;
     lastFollowerCount = followerCount;
+    lastCommentCount = commentCount;
 
     nextTime = millis() + 10000;
 }
 
-void handleResult(int followerDelta, int likeDelta) {
-    setColor(0, 0, 0); // Turn of LED
+void handleResult(int followerDelta, int likeDelta, int commentDelta) {
+    setColor(0, 0, 0); // Turn off LED
     
-    // Favor "Followers" over "Likes"
+    // Favor "Followers" over "Comments"
     if (followerDelta > 0) {
         setColor(0, 0, 255);
+    } else if (commentDelta > 0) { // Favor "Comments" over "Likes"
+        setColor(0, 255, 0);
     } else if (likeDelta > 0) {
         setColor(255, 0, 0);
     }
 }
 
 void setColor(int red, int green, int blue) {
-  analogWrite(D3, red);
-  analogWrite(D2, green);
-  analogWrite(D1, blue);  
+  analogWrite(D1, red);
+  analogWrite(D3, green);
+  analogWrite(D2, blue);  
 }
 
 // ---- HTTP functions ----
@@ -81,6 +88,11 @@ int getFollowers() {
 
 int getLikes() {
     request.path = "/likes/engineerish";
+    return fetchInteger();
+}
+
+int getComments() {
+    request.path = "/comments/engineerish";
     return fetchInteger();
 }
 
