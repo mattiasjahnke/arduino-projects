@@ -41,3 +41,9 @@ RGB led that indicates when you get a new follower or someone likes your posts o
 * *Project type: PlatformIO (.cpp)*
 
 A simple implementation of Pong for two players controlling the paddles with potetiometers. Using the TVout-library to display the game on a TV.
+
+### [Pixel-Painter](../master/pixel-painter)
+
+* *Project type: Arduino IDE (.ino) and Processing (.pde)*
+
+Paint an image with a neopixel strip and a camera with a long exposure.
