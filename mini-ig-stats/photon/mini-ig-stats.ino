@@ -1,5 +1,8 @@
 #include "HttpClient/HttpClient.h"
 
+//uncomment this line if using a Common Anode LED
+#define COMMON_ANODE
+
 unsigned int nextTime = 0;
 
 // ---- HTTP Variables ----
@@ -26,9 +29,18 @@ void setup() {
     request.port = 80;
     
     // (PWM) Pins for RGB Led
-    pinMode(D1, OUTPUT); // Blue
-    pinMode(D2, OUTPUT); // Green
-    pinMode(D3, OUTPUT); // Red
+    pinMode(D1, OUTPUT); // Red
+    pinMode(D2, OUTPUT); // Blue
+    pinMode(D3, OUTPUT); // Green
+    
+    // Test LEDs
+    setColor(255, 0, 0);
+    delay(2000);
+    setColor(0, 255, 0);
+    delay(2000);
+    setColor(0, 0, 255);
+    delay(2000);
+    setColor(0, 0, 0);
 }
 
 void loop() {
@@ -74,12 +86,17 @@ void handleResult(int followerDelta, int likeDelta, int commentDelta) {
 }
 
 void setColor(int red, int green, int blue) {
+  #ifdef COMMON_ANODE
+    red = 255 - red;
+    green = 255 - green;
+    blue = 255 - blue;
+  #endif
   analogWrite(D1, red);
   analogWrite(D3, green);
   analogWrite(D2, blue);  
 }
 
-// ---- HTTP functions ----
+// ---- HTTP functions ---- (Change the instagram handle)
 
 int getFollowers() {
     request.path = "/followers/engineerish";
