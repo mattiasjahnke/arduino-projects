@@ -47,3 +47,9 @@ A simple implementation of Pong for two players controlling the paddles with pot
 * *Project type: Arduino IDE (.ino) and Processing (.pde)*
 
 Paint an image with a neopixel strip and a camera with a long exposure.
+
+### [Disco Keyboard](../master/disco-keyboard)
+
+* *Project type: Arduino IDE (.ino) and Processing (.pde)*
+
+Turn your keyboard into a sparkling disco show.
