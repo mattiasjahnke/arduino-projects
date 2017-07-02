@@ -59,3 +59,9 @@ Turn your keyboard into a sparkling disco show.
 * *Project type: Arduino IDE (.ino) and Processing*
 
 Make a radar using Arduino, plot your surroundings using processing.
+
+### [Music Controller](../master/music-controller)
+
+* *Project type: Arduino IDE (.ino) and a Cocoa app*
+
+Control Spotify or iTunes via an Arduino interface with an LCD displaying the current song.
