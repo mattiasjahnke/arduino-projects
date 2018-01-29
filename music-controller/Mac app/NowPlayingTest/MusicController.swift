@@ -28,12 +28,8 @@ class MusicController {
     }
     
     static var systemVolume: Int {
-        get {
-            return 0
-        }
-        set {
-            "set volume output volume (\(newValue))".execute()
-        }
+        get { return 0 }
+        set { "set volume output volume (\(newValue))".execute() }
     }
     
     init(changed: @escaping (Track?) -> ()) {
@@ -62,7 +58,7 @@ class MusicController {
     
     deinit {
         for listener in listeners {
-            NotificationCenter.default.removeObserver(listener)
+            DistributedNotificationCenter.default.removeObserver(listener)
         }
     }
 }
@@ -82,29 +78,25 @@ private struct MusicApp {
     }
     
     var nowPlaying: String? {
-        let script = NSAppleScript(source:
-            "if application \"\(applicationName)\" is running then\n" +
-                "tell application \"\(applicationName)\"\n" +
-                "if player state is playing then\n" +
-                "return (get artist of current track) & \":€:\" & (get name of current track)\n" +
-                "else\n" +
-                "return \"\"\n" +
-                "end if\n" +
-                "end tell\n" +
-                "else\n" +
-                "return \"\"\n" +
-            "end if")!
-        var error: NSDictionary?
-        let result = script.executeAndReturnError(&error)
+        let script = """
+            if application "\(applicationName)\" is running then
+            tell application "\(applicationName)"
+            if player state is playing then
+            return (get artist of current track) & ":€:" & (get name of current track)
+            else
+            return ""
+            end if
+            end tell
+            else
+            return ""
+            end if
+            """
         
-        return result.stringValue.flatMap { $0.isEmpty ? nil : $0 }
+        return script.execute().stringValue.flatMap { $0.isEmpty ? nil : $0 }
     }
     
     var isOpen: Bool {
-        let script = NSAppleScript(source: "return application \"\(applicationName)\" is running")!
-        var error: NSDictionary?
-        let result = script.executeAndReturnError(&error)
-        return result.booleanValue
+        return "return application \"\(applicationName)\" is running".execute().booleanValue
     }
     
     func togglePlayPause() {
@@ -121,8 +113,9 @@ private struct MusicApp {
 }
 
 private extension String {
-    func execute() {
-        NSAppleScript(source: self)!.executeAndReturnError(nil)
+    @discardableResult
+    func execute() -> NSAppleEventDescriptor {
+        return NSAppleScript(source: self)!.executeAndReturnError(nil)
     }
 }
 

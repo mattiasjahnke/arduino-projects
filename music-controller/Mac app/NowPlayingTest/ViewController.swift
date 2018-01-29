@@ -21,7 +21,7 @@ class ViewController: NSViewController {
         statusLabel.stringValue = "No connection"
         
         // TODO: Make sure to select the correct serial port!
-        self.serialPort = ORSSerialPortManager.shared().availablePorts.first!
+        self.serialPort = ORSSerialPortManager.shared().availablePorts[0]
         self.serialPort!.baudRate = NSNumber(value: 9600)
         
         self.serialPort!.delegate = self
@@ -38,11 +38,9 @@ class ViewController: NSViewController {
         controller.previousTrack()
     }
     
-    
     @IBAction func toggle(_ sender: Any) {
         controller.togglePlayPause()
     }
-    
     
     @IBAction func next(_ sender: Any) {
         controller.nextTrack()
@@ -90,5 +88,3 @@ extension ViewController: ORSSerialPortDelegate {
 func nowPlayingString(for track: Track?) -> String {
     return track.map { $0.artist + "\n" + $0.song } ?? "Not playing"
 }
-
-
