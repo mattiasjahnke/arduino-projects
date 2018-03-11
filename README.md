@@ -65,3 +65,8 @@ Make a radar using Arduino, plot your surroundings using processing.
 * *Project type: Arduino IDE (.ino) and a Cocoa app*
 
 Control Spotify or iTunes via an Arduino interface with an LCD displaying the current song.
+
+### [Neopixels reacting to audio](../master/neopixel-audio-react)
+* *Project type: Arduino IDE (.ino) and Processing (.pde)*
+
+Have neopixels light up with the rythm of music!
