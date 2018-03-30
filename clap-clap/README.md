@@ -7,3 +7,5 @@ A simple prototype that toggles an LED on/off when hearing two claps.
 Tips: Hook this up to your smart home and control your entire house with noises ;)
 
 ## Circuit
+
+![Circuit](clap-clap.png)
