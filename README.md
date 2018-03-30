@@ -69,7 +69,7 @@ Control Spotify or iTunes via an Arduino interface with an LCD displaying the cu
 ### [Neopixels reacting to audio](../master/neopixel-audio-react)
 * *Project type: Arduino IDE (.ino) and Processing (.pde)*
 
-### [Clap-Clap](/master/clap-clap)
+### [Clap-Clap](../master/clap-clap)
 * Toggle lights on/off with claps!
 
 Have neopixels light up with the rythm of music!
