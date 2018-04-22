@@ -1,12 +1,36 @@
-/* Written by @engineerish at some point in the year 2018.
+/*
+
+ Written by @engineerish at some point in the year 2018.
  It's not an exact science - do with this code as you please.
  
  Check out more of my projects over at
- https://instagram.com/engineerish */
+ https://instagram.com/engineerish
+ 
+ 
+ Project: Led Matrix Painter
+ Description:
+   This Processing app provides you with a GUI for controlling the 8x8 led matrices connected to an Arduino.
+   The app communicates over Serial (baud rate 115200)
+   There's a TCP server running (port 5204 by default), so you can control the matrix through any other app if you'd like
+   and only use this Processing sketch as a proxy to speak to the Arduino.
+   
+   Protocol: This sketch will send an indices of the led to edit. In order to turn on a led, you'd send the
+   index of the led + 1000 as an integer over to the Arduino (1000 will for example turn on the first led)
+ 
+   To turn off a led, you'd send an integer < 1000 (sending 0 turns off the first led)
+   
+   To test out the socket connection in terminal:
+   
+   echo 1000 | nc localhost 5204
+   
+ */
+
 
 import processing.serial.*;
+import processing.net.*;
 
 Serial arduino;
+Server server;
 
 static int cellSize = 32;
 
@@ -23,22 +47,66 @@ void setup() {
   size(1320, 297);
   noStroke();
 
+  tryConnectSerial();
+
+  // Setup TCP server
+  server = new Server(this, 5204);
+}
+
+void tryConnectSerial() {
   // Lazy search for the Arduino serial port
   String[] serials = Serial.list();
   for (String s : serials) {
     if (s.contains("/dev/cu.usb")) {
       arduino = new Serial(this, s, 115200);
+
+      clearMatrix();
       break;
     }
   }
-
-  // 0xffff clears the screen (also triggered by tapping 'c' on the keyboard)
-  arduino.write(0xffff);
 }
 
 void draw() {
   background(0);
-  
+
+  if (arduino == null) {
+    textSize(32);
+    fill(255, 0, 0);
+    text("No arduino connected!", 500, 120); 
+    fill(255);
+    text("Waiting for connection...", 490, 160);
+
+    tryConnectSerial();
+
+    delay(300);
+    return;
+  }
+
+  Client client = server.available();
+  if (client != null) {
+    String clientMessage = client.readString();
+    if (clientMessage != null) {
+      String[] parts = clientMessage.split(",");
+      for (String part : parts) {
+        if (part.equals("clear")) {
+          clearMatrix();
+          continue;
+        }
+        int index = Integer.parseInt(part.trim());
+        boolean add = false;
+        int mod = index;
+        if (index >= 1000) {
+          add = true;
+          mod -= 1000;
+        }
+        int y = floor(mod / matrix[0].length);
+        int x = mod % matrix[0].length;
+        matrix[y][x] = add;
+        sendInteger(index);
+      }
+    }
+  } 
+
   // Draw Matrix
   for (int y = 0; y < matrix.length; y++) {
     for (int x = 0; x < matrix[y].length; x++) {
@@ -59,7 +127,7 @@ void mousePressed() {
 
   // If the user begins the mouse interaction on an "unlit" cell - the click and continous drag will light up leds (additive)
   additive = !matrix[cellY][cellX];
-  
+
   handleMouse();
 }
 
@@ -90,7 +158,7 @@ void handleMouse() {
 
     // Calculate the index of the led to modify (counted from top left)
     int index = (cellY * matrix[0].length + cellX);
-    
+
     // "Adds" to the matrix are represented by a led index > 1000 (this value is later subtracted on the Arduino)
     if (matrix[cellY][cellX]) {
       index += 1000;
@@ -105,21 +173,25 @@ void handleMouse() {
 
 void keyReleased() {
   if (key == 'c') {
-    for (int y = 0; y < matrix.length; y++) {
+    clearMatrix();
+  }
+}
+
+void clearMatrix() {
+  for (int y = 0; y < matrix.length; y++) {
       for (int x = 0; x < matrix[y].length; x++) {
         matrix[y][x] = false;
       }
     }
     arduino.write(0xffff);
-  }
 }
 
 // === UTILITIES ===
 
 void sendInteger(int value) {
- // Split the integer up in two that can later be assembeled again on the other side.
- // The data type int in Processing are 32 bit while they're only 16 bit on the Arduino UNO.
-  
+  // Split the integer up in two that can later be assembeled again on the other side.
+  // The data type int in Processing are 32 bit while they're only 16 bit on the Arduino UNO.
+
   int p1 = value & 0xFF;
   int p2 = (value >> 8) & 0xFF;
   arduino.write(p1);
