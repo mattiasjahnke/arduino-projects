@@ -1,0 +1,4 @@
+framework module Flow {
+    header "Flow-Swift.h"
+    requires objc
+}

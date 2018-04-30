@@ -1,0 +1,21 @@
+{
+  "Mac" : [
+    {
+      "name" : "Flow",
+      "hash" : "9b22cda814d1e6bd0e99024865d7e3793e4c31a8348ada29979b23cd3e9cff4f"
+    }
+  ],
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+
+  ],
+  "commitish" : "1.0.0",
+  "iOS" : [
+    {
+      "name" : "Flow",
+      "hash" : "1ecea1839db7aa608c20ecacc3d0f1928a86dd39f68429eec7b6279441eb8903"
+    }
+  ]
+}
