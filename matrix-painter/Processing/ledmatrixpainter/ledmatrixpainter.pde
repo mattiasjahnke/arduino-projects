@@ -2,27 +2,27 @@
 
  Written by @engineerish at some point in the year 2018.
  It's not an exact science - do with this code as you please.
- 
+
  Check out more of my projects over at
  https://instagram.com/engineerish
- 
- 
+
+
  Project: Led Matrix Painter
  Description:
-   This Processing app provides you with a GUI for controlling the 8x8 led matrices connected to an Arduino.
-   The app communicates over Serial (baud rate 115200)
-   There's a TCP server running (port 5204 by default), so you can control the matrix through any other app if you'd like
-   and only use this Processing sketch as a proxy to speak to the Arduino.
-   
-   Protocol: This sketch will send an indices of the led to edit. In order to turn on a led, you'd send the
-   index of the led + 1000 as an integer over to the Arduino (1000 will for example turn on the first led)
- 
-   To turn off a led, you'd send an integer < 1000 (sending 0 turns off the first led)
-   
-   To test out the socket connection in terminal:
-   
-   echo 1000 | nc localhost 5204
-   
+ This Processing app provides you with a GUI for controlling the 8x8 led matrices connected to an Arduino.
+ The app communicates over Serial (baud rate 115200)
+ There's a TCP server running (port 5204 by default), so you can control the matrix through any other app if you'd like
+ and only use this Processing sketch as a proxy to speak to the Arduino.
+
+ Protocol: This sketch will send an indices of the led to edit. In order to turn on a led, you'd send the
+ index of the led + 1000 as an integer over to the Arduino (1000 will for example turn on the first led)
+
+ To turn off a led, you'd send an integer < 1000 (sending 0 turns off the first led)
+
+ To test out the socket connection in terminal:
+
+ echo 1000 | nc localhost 5204
+
  */
 
 
@@ -72,7 +72,7 @@ void draw() {
   if (arduino == null) {
     textSize(32);
     fill(255, 0, 0);
-    text("No arduino connected!", 500, 120); 
+    text("No arduino connected!", 500, 120);
     fill(255);
     text("Waiting for connection...", 490, 160);
 
@@ -88,24 +88,25 @@ void draw() {
     if (clientMessage != null) {
       String[] parts = clientMessage.split(",");
       for (String part : parts) {
-        if (part.equals("clear")) {
+        String trimmed = part.trim();
+        if (trimmed.equals("clear")) {
           clearMatrix();
-          continue;
+        } else if (!trimmed.equals("")) {
+          int index = Integer.parseInt(trimmed);
+          boolean add = false;
+          int mod = index;
+          if (index >= 1000) {
+            add = true;
+            mod -= 1000;
+          }
+          int y = floor(mod / matrix[0].length);
+          int x = mod % matrix[0].length;
+          matrix[y][x] = add;
+          sendInteger(index);
         }
-        int index = Integer.parseInt(part.trim());
-        boolean add = false;
-        int mod = index;
-        if (index >= 1000) {
-          add = true;
-          mod -= 1000;
-        }
-        int y = floor(mod / matrix[0].length);
-        int x = mod % matrix[0].length;
-        matrix[y][x] = add;
-        sendInteger(index);
       }
     }
-  } 
+  }
 
   // Draw Matrix
   for (int y = 0; y < matrix.length; y++) {
@@ -179,19 +180,16 @@ void keyReleased() {
 
 void clearMatrix() {
   for (int y = 0; y < matrix.length; y++) {
-      for (int x = 0; x < matrix[y].length; x++) {
-        matrix[y][x] = false;
-      }
+    for (int x = 0; x < matrix[y].length; x++) {
+      matrix[y][x] = false;
     }
-    arduino.write(0xffff);
+  }
+  arduino.write(0xffff);
 }
 
 // === UTILITIES ===
 
 void sendInteger(int value) {
-  // Split the integer up in two that can later be assembeled again on the other side.
-  // The data type int in Processing are 32 bit while they're only 16 bit on the Arduino UNO.
-
   int p1 = value & 0xFF;
   int p2 = (value >> 8) & 0xFF;
   arduino.write(p1);

@@ -9,20 +9,47 @@
 import UIKit
 import SwiftSocket
 import UIKit.UIGestureRecognizerSubclass
-
-
-// Configuration
-let tcpAddress = "10.0.1.16"
-let port: Int32 = 5204
+import Flow
 
 let cellSize: CGFloat = 17 // In case you have a smaller phone - they won't behave automatically (because I went full lazy on this one..)
-// =====
+
+struct ConnectionInfo {
+    let address: String
+    let port: Int32
+}
+
+extension ConnectionInfo {
+    init?(connectionString: String) {
+        let components = connectionString.split(separator: ":")
+        guard components.count == 2 else { return nil }
+        guard let port = Int32(components[1]) else { return nil }
+        self.init(address: String(components[0]), port: port)
+    }
+    
+    var connectionString: String {
+        return "\(address):\(port)"
+    }
+}
+
+var cachedConnection: ConnectionInfo? {
+    get {
+        return UserDefaults.standard.string(forKey: "cached-connection").flatMap { ConnectionInfo(connectionString: $0) }
+    }
+    set {
+        if let info = newValue {
+            UserDefaults.standard.set(info.connectionString, forKey: "cached-connection")
+        } else {
+            UserDefaults.standard.removeObject(forKey: "cached-connection")
+        }
+        UserDefaults.standard.synchronize()
+    }
+}
 
 class CellView: UIView {
     var state: Bool = true {
         didSet {
             if oldValue != state {
-                self.backgroundColor = state ? .yellow : .black
+                self.backgroundColor = state ? .yellow : UIColor(white: 1, alpha: 0.2)
                 guard let client = client else { return }
                 let int = tag + (state ? 1000 : 0)
                 _ = client.send(string: "\(int),")
@@ -35,9 +62,13 @@ var client: TCPClient?
 
 class ViewController: UIViewController {
     
+    @IBOutlet weak var clearButton: UIButton!
+    @IBOutlet weak var ipTextField: UITextField!
     var stack: UIStackView!
     var lastCell: CellView?
     var adding = true
+    
+    let bag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,17 +102,6 @@ class ViewController: UIViewController {
         stack.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         stack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        client = TCPClient(address: tcpAddress, port: port)
-        
-        switch client!.connect(timeout: 10) {
-        case .success:
-            print("Connected")
-            sendClearCommand()
-        case .failure(_):
-            // TODO: We should really add some sort of auto connect here...
-            print("💩")
-        }
-        
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(ViewController.handlePan(gesture:)))
         panGesture.maximumNumberOfTouches = 1
         panGesture.minimumNumberOfTouches = 1
@@ -91,6 +111,22 @@ class ViewController: UIViewController {
         let tapGesture = SingleTouchDownGestureRecognizer(target: self, action: #selector(ViewController.handleTap(gesture:)))
         tapGesture.delegate = self
         stack.addGestureRecognizer(tapGesture)
+        
+        
+        // Setup view bindings and connect
+        
+        ipTextField.text = cachedConnection?.connectionString ?? ""
+        bag += clearButton.onValue(sendClearCommand)
+        bag += ipTextField.atOnce().compactMap { ConnectionInfo(connectionString: $0) }.onValue {
+            cachedConnection = $0
+            client?.close()
+            self.connect()
+        }
+        bag += ipTextField.signal(for: .editingDidEndOnExit).onValue {
+            self.ipTextField.resignFirstResponder()
+        }
+        
+        
     }
     
     @objc func handlePan(gesture: UIPanGestureRecognizer) {
@@ -115,6 +151,20 @@ class ViewController: UIViewController {
         cell.state = adding
     }
     
+    func connect() {
+        guard let connectionInfo = cachedConnection else { return }
+        client = TCPClient(connectionInfo: connectionInfo)
+        
+        switch client!.connect(timeout: 10) {
+        case .success:
+            print("Connected")
+            sendClearCommand()
+        case .failure(_):
+            // TODO: We should really add some sort of auto connect here...
+            print("💩")
+        }
+    }
+    
     func cellAt(point: CGPoint) -> CellView? {
         for rowStack in stack.arrangedSubviews as! [UIStackView] {
             for cell in rowStack.arrangedSubviews as! [CellView] {
@@ -125,10 +175,6 @@ class ViewController: UIViewController {
             }
         }
         return nil
-    }
-    
-    @IBAction func clearButtonTapped(_ sender: Any) {
-        sendClearCommand()
     }
     
     func sendClearCommand() {
@@ -147,6 +193,12 @@ class ViewController: UIViewController {
 extension ViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
+    }
+}
+
+extension TCPClient {
+    convenience init(connectionInfo: ConnectionInfo) {
+        self.init(address: connectionInfo.address, port: connectionInfo.port)
     }
 }
 

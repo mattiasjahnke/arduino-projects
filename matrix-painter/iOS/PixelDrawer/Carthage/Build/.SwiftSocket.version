@@ -1,24 +1,24 @@
 {
-  "iOS" : [
+  "Mac" : [
     {
-      "hash" : "aab066d808fd124f8e1076d9450d8ff57c1b61de4e126ef4b4778c384f30905d",
-      "name" : "SwiftSocket"
+      "name" : "SwiftSocket",
+      "hash" : "9d149c3645cae79286df0a684b8d2d6c91ac3c9bcaf661322e236e87ddf86db3"
     }
   ],
-  "commitish" : "2.0.2",
   "watchOS" : [
 
   ],
   "tvOS" : [
     {
-      "hash" : "2a7253787f0d497b3e135f306a84ce72fd209c50f98ed2e4cc5d6689e39baba9",
-      "name" : "SwiftSocket"
+      "name" : "SwiftSocket",
+      "hash" : "332124fd3bb259426b4a2901795a04166fb1fceaad73f249cc51450330fc2d64"
     }
   ],
-  "Mac" : [
+  "commitish" : "2.0.2",
+  "iOS" : [
     {
-      "hash" : "c5593ce55cf8b9e1b44d0e2c01db00a70745c9661cc6b698bd5a772fc4da8a27",
-      "name" : "SwiftSocket"
+      "name" : "SwiftSocket",
+      "hash" : "3b985e53e0df2dd954209f01d36bd5a06583845326c1d43565413ab7a87031fa"
     }
   ]
 }

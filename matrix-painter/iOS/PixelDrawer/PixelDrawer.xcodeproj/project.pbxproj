@@ -13,6 +13,7 @@
 		CDD15E07208C649400681C7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CDD15E06208C649400681C7C /* Assets.xcassets */; };
 		CDD15E0A208C649400681C7C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDD15E08208C649400681C7C /* LaunchScreen.storyboard */; };
 		CDD15E13208C652500681C7C /* SwiftSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDD15E12208C652500681C7C /* SwiftSocket.framework */; };
+		CDD15E172090FDFD00681C7C /* Flow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDD15E162090FDFD00681C7C /* Flow.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		CDD15E09208C649400681C7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CDD15E0B208C649400681C7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CDD15E12208C652500681C7C /* SwiftSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftSocket.framework; path = Carthage/Build/iOS/SwiftSocket.framework; sourceTree = "<group>"; };
+		CDD15E162090FDFD00681C7C /* Flow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Flow.framework; path = Carthage/Build/iOS/Flow.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +34,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CDD15E13208C652500681C7C /* SwiftSocket.framework in Frameworks */,
+				CDD15E172090FDFD00681C7C /* Flow.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,6 +74,7 @@
 		CDD15E11208C652400681C7C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CDD15E162090FDFD00681C7C /* Flow.framework */,
 				CDD15E12208C652500681C7C /* SwiftSocket.framework */,
 			);
 			name = Frameworks;
@@ -152,10 +156,12 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftSocket.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Flow.framework",
 			);
 			name = "Carthage copy-frameworks";
 			outputPaths = (
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SwiftSocket.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Flow.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
