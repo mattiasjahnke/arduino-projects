@@ -81,3 +81,9 @@ Have neopixels light up with the rythm of music!
 * *Project type: Arduino IDE (.ino), Processing (.pde) and iOS*
 
 Paint those great 8x8 LED Matrices MAX7219 with our mouse - OR go one step further and use your iOS device!
+
+### [Neopixel 7-Segment Display](../master/neo-segment)
+
+* *Project type: Arduino IDE (.ino)*
+
+Create a 7-Segment Display with Neopixels
