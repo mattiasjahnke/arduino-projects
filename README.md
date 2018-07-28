@@ -87,3 +87,9 @@ Paint those great 8x8 LED Matrices MAX7219 with our mouse - OR go one step furth
 * *Project type: Arduino IDE (.ino)*
 
 Create a 7-Segment Display with Neopixels
+
+### [Happy New Year](../master/happy-new-year)
+
+* *Project type: Arduino IDE (.ino)*
+
+A simple animation on MAX7219 I used in the Intagram post https://www.instagram.com/p/BdVzRKtln6V
