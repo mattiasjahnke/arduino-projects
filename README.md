@@ -93,3 +93,9 @@ Create a 7-Segment Display with Neopixels
 * *Project type: Arduino IDE (.ino)*
 
 A simple animation on MAX7219 I used in the Intagram post https://www.instagram.com/p/BdVzRKtln6V
+
+### [Arduino PC JoyStick](../master/arduino-pc-joystick)
+
+* *Project type: Arduino IDE (.ino), Python (.py)*
+
+Turns an Arduino JoyStick shield in to a PC game pad or second keyboard/mouse.
