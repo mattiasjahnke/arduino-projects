@@ -2,9 +2,15 @@
 
 Source code for an arduino gamepad using the Funduino JoyStick Shield.
 
-Components used:
+### Components used:
 * Arduino Uno
 * Funduino JoyStick Shield
+
+## Instructions
+
+1) Upload the Arduino sketch to an Arduino with a JoyStick shield attached to it.
+2) Modify `Funduino-JoyStick.py` with your Arduinos port name (for example `/dev/cu.usbmodem1461`)
+3) Run `python Funduino-JoyStick.py`
 
 ## How it works
 
