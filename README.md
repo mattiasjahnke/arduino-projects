@@ -99,3 +99,9 @@ A simple animation on MAX7219 I used in the Intagram post https://www.instagram.
 * *Project type: Arduino IDE (.ino), Python (.py)*
 
 Turns an Arduino JoyStick shield in to a PC game pad or second keyboard/mouse.
+
+### [BreakoutClone](../master/BreakoutClone)
+
+* *Project type: Arduboy (Arduino IDE (.ino))*
+
+A simple proof of concept of the game breakout for the Arduboy
