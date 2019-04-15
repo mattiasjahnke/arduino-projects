@@ -25,3 +25,8 @@ You computer will now recognize the Arduino as a keyboard.
 Note: You can't upload a sketch when in "keyboard mode". You can put the Arduino back in serial mode (and allow uploading of sketches) by doing the same procedure but instead running `./set-serial`.
 
 Note: Make sure you're using the right firmware for your Arduino... Firmware fiddling can be tricky ;)
+
+
+### Special thanks to
+
+https://github.com/nylen/auto-f1-presser
