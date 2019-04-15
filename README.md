@@ -105,3 +105,9 @@ Turns an Arduino JoyStick shield in to a PC game pad or second keyboard/mouse.
 * *Project type: Arduboy (Arduino IDE (.ino))*
 
 A simple proof of concept of the game breakout for the Arduboy
+
+### [Morse Keyboard](../master/morse-keyboard)
+
+* *Project type: Arduino IDE (.ino)*
+
+Turns your Arduino UNO in to a one-button keyboard using morse code.

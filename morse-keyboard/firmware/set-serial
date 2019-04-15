@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo "Programming Arduino UNO to be Serial"
+echo "If it's not working - make sure you've shorted the pins!"
+
+sudo dfu-programmer atmega16u2 erase
+sudo dfu-programmer atmega16u2 flash --debug 1 Arduino-usbserial-uno.hex
+sudo dfu-programmer atmega16u2 reset
+
+echo "Aight - power cycle the Arduino!"
