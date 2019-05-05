@@ -111,3 +111,9 @@ A simple proof of concept of the game breakout for the Arduboy
 * *Project type: Arduino IDE (.ino)*
 
 Turns your Arduino UNO in to a one-button keyboard using morse code.
+
+### [hue-motion](../master/hue-motion)
+
+* *Project type: Arduino IDE (.ino)*
+
+Detecting motion with a PIR sensor, a NodeMCU communicates with a Philips Hue bridge to toggle the lights on or off (like the philips motions sensor).
