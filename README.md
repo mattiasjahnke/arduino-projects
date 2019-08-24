@@ -117,3 +117,9 @@ Turns your Arduino UNO in to a one-button keyboard using morse code.
 * *Project type: Arduino IDE (.ino)*
 
 Detecting motion with a PIR sensor, a NodeMCU communicates with a Philips Hue bridge to toggle the lights on or off (like the philips motions sensor).
+
+### [clock-phone](../master/clock-phone)
+
+* *Project type: Arduino IDE (.ino)*
+
+Repurposing an old phone in to a time telling machine using Arduino Nano 33 IOT and DFPlayer Mini.
