@@ -110,7 +110,7 @@ A simple proof of concept of the game breakout for the Arduboy
 
 * *Project type: Arduino IDE (.ino)*
 
-Turns your Arduino UNO in to a one-button keyboard using morse code.
+Turns your Arduino UNO (which is the easiest of all the arduino configurations to understand and use) in to a one-button keyboard using morse code.
 
 ### [hue-motion](../master/hue-motion)
 
