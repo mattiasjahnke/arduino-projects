@@ -33,20 +33,23 @@ void setup(void) {
 void loop() {
   bool movementDetected = digitalRead(PIR_PIN) == HIGH;
   bool okToSend = last != movementDetected;
-  last = movementDetected;
 
   if (movementDetected) {
     lastMovement = millis();
     Serial.println("Movement detected");
-    if (okToSend) {
+    
+    if (lastSent != "on") {
       Serial.println("Sending ON");
       sendHttpRequest(true);
     }
   } else {
     Serial.println("No movement detected");
-    if (millis() - lastMovement > idlePeriod && okToSend) {
-      Serial.println("Passed idlePeriod - sending OFF");
-      sendHttpRequest(false);
+    if (millis() - lastMovement > idlePeriod) {
+
+      if (lastSent != "off") {
+        Serial.println("Passed idlePeriod - sending OFF");
+        sendHttpRequest(false);
+      }
     }
   }
   
@@ -61,8 +64,10 @@ void sendHttpRequest(bool turnOn) {
     http.addHeader("Content-Type", "text/plain;charset=UTF-8");
     if (turnOn) {
       http.PUT("{\"on\":true}");
+      lastSent = "on";
     } else {
       http.PUT("{\"on\":false}");
+      lastSent = "off";
     }
     http.end();
   } else {
