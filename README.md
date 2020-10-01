@@ -1,10 +1,10 @@
-# Arduino Projects
+# Arduino Projects : Simple and Amazing
 
 This is a collection of Arduino projects that don't really deserve their own repository.
 
 None of them are really maintained. Feel free to poke around and create pull requests if you have some improvment.
 
-## Projects
+## Projects 
 
 ### [Guitar](../master/guitar)
 
